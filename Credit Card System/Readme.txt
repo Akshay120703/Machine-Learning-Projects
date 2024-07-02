@@ -9,5 +9,5 @@ Simple Steps to execute this project:
 
 Open the port mentioned in the terminal and the project is executed!!
 
-rf_model.pkl :- https://drive.google.com/file/d/1G1VUcRsKgg5ctgaY9WmI-S0q_sw5WjIC/view?usp=sharing
+rf_model.pkl :- https://drive.google.com/file/d/1G1VUcRsKgg5ctgaY9WmI-S0q_sw5WjIC/view?usp=sharing 
 fraudTest.csv and fraudTrain.csv :- https://www.kaggle.com/datasets/kartik2112/fraud-detection
