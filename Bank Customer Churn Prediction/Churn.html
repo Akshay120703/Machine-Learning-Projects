@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churn Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Churn Prediction</h1>
+    <form id="churnForm">
+        <div class="form-group">
+            <label for="CreditScore">Credit Score</label>
+            <input type="number" id="CreditScore" name="CreditScore" required>
+        </div>
+        <div class="form-group">
+            <label for="Geography">Geography</label>
+            <select id="Geography" name="Geography" required>
+                <option value="France">France</option>
+                <option value="Spain">Spain</option>
+                <option value="Germany">Germany</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Gender">Gender</label>
+            <select id="Gender" name="Gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Age">Age</label>
+            <input type="number" id="Age" name="Age" required>
+        </div>
+        <div class="form-group">
+            <label for="Tenure">Tenure</label>
+            <input type="number" id="Tenure" name="Tenure" required>
+        </div>
+        <div class="form-group">
+            <label for="Balance">Balance</label>
+            <input type="number" step="0.01" id="Balance" name="Balance" required>
+        </div>
+        <div class="form-group">
+            <label for="NumOfProducts">Number of Products</label>
+            <input type="number" id="NumOfProducts" name="NumOfProducts" required>
+        </div>
+        <div class="form-group">
+            <label for="HasCrCard">Has Credit Card</label>
+            <select id="HasCrCard" name="HasCrCard" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="IsActiveMember">Is Active Member</label>
+            <select id="IsActiveMember" name="IsActiveMember" required>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="EstimatedSalary">Estimated Salary</label>
+            <input type="number" step="0.01" id="EstimatedSalary" name="EstimatedSalary" required>
+        </div>
+        <button type="submit">Predict</button>
+    </form>
+    <div id="result" class="result" style="display: none;"></div>
+
+    <script>
+        document.getElementById('churnForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(event.target);
+            let data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                let resultDiv = document.getElementById('result');
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = `<strong>Prediction:</strong> ${data.prediction ? 'Exited' : 'Not Exited'}`;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
